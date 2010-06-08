@@ -2,6 +2,10 @@
  * jQuery plugin:	cursorPosition - v0.1.0 - last change: 2008-08-28
  * Author	Annan Yearian
  * Licence	Creative Commons ( http://creativecommons.org/licenses/by-sa/2.5/scotland )
+ *
+ * Updated 2010-06-08 by Ben Miller <ben.miller@isotoma.com>
+ * Computed style of originating input is applied to rendered span
+ *  
  */
 
 (function(Q){
@@ -65,7 +69,7 @@
 		    span.css(_css[i], this.css(_css[i]));
 
 		}
-		// for multiple spaces
+		// handle multiple white space
 		span.css('white-space', 'pre');
 		
 		/* 
@@ -75,8 +79,8 @@
 		var wraps = text.split('\n');
 		span.text(wraps[wraps.length-1]);	
 		
-		var textHeight = (span.height() * wraps.length);		
-		var textWidth = Math.min(span.width(), this.width());
+		var textHeight = Math.min((span.height() * wraps.length), this.height());
+		var textWidth = Math.min(span.width(), this.width());		
 				
 		var top = this.offset().top + textHeight;
 		var left = this.offset().left + textWidth;
@@ -84,7 +88,7 @@
 		span.remove();
 		
 		return {
-			'rows': wraps.length, 
+			'rows': wraps, 
 			'text': text, 
 			'textWidth': textWidth, 
 			'textHeight': textHeight, 
