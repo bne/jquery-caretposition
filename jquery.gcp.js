@@ -5,23 +5,24 @@
  *
  * Updated 2010-06-08 by Ben Miller <ben.miller@isotoma.com>
  * Computed style of originating input is applied to rendered span
- *  
+ *
  */
 
 (function(Q){
 	jQuery.fn.getCursorPosition = function()
 	{
-        var _css = [ 
-            'border-top-width', 'border-right-width', 
+        var _css = [
+            'border-top-width', 'border-right-width',
             'border-bottom-width', 'border-left-width',
             'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
             'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
             'font-family', 'font-size', 'font-style', 'font-variant', 'font-weight',
             'outline-width', 'white-space', 'direction', 'letter-spacing',
             'line-height', 'text-align', 'text-transform', 'word-spacing'];
-            
-		var el = this[0];
-		
+
+        var $el = this;
+		var el = $el[0];
+
 		/*
 		 * get the text that is before the cursur
 		 */
@@ -46,7 +47,7 @@
 					var rc = re.duplicate();
 					re.moveToBookmark(range.getBookmark());
 					rc.setEndPoint('EndToStart', re);
-					
+
 					return rc.text.length;
 				}
 			) ||
@@ -56,43 +57,39 @@
 				return 0;
 			}
 		)();
-		
+
 		var text = el.value.substr(0, selStart);
-		
-		/* 
+
+		/*
 		 * render the text so we can measure it
 		 */
-		$('body').append('<span id="gcp-span"></span>');
-		var span = $('#gcp-span');		
+		var span = $('<span>');
 
-		for(var i=0; i<_css.length; i++) {
-		    span.css(_css[i], this.css(_css[i]));
-
-		}
+		$.each(_css, function(i, attr) {
+		    span.css(attr, $el.css(attr));
+		})
 		// handle multiple white space
 		span.css('white-space', 'pre');
-		
-		/* 
-		 * calculate values
-		 */
-		
+
 		var wraps = text.split('\n');
-		span.text(wraps[wraps.length-1]);	
-		
-		var textHeight = Math.min((span.height() * wraps.length), this.height());
-		var textWidth = Math.min(span.width(), this.width());		
-				
-		var top = this.offset().top + textHeight;
-		var left = this.offset().left + textWidth;
-			 
+		span.text(wraps[wraps.length-1]);
+
+		$('body').append(span);
+
+		var textHeight = Math.min((span.height() * wraps.length), $el.height());
+		var textWidth = Math.min(span.width(), $el.width());
+
+		var top = $el.offset().top + textHeight;
+		var left = $el.offset().left + textWidth;
+
 		span.remove();
-		
+
 		return {
-			'rows': wraps, 
-			'text': text, 
-			'textWidth': textWidth, 
-			'textHeight': textHeight, 
-			'top': top, 
+			'rows': wraps,
+			'text': text,
+			'textWidth': textWidth,
+			'textHeight': textHeight,
+			'top': top,
 			'left':left
 		};
 	};

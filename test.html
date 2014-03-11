@@ -16,32 +16,32 @@
         padding: 0.25em;
         margin: 0.5em;
     }
-    
+
     #stats table th {
         text-align: right;
         vertical-align: top;
     }
-    
+
     form {
         border: 1px solid #CCC;
         margin: 5px;
         background: #FCFCFC;
     }
-    
+
     #form2 {
         position: absolute;
         top: 5%;
         left: 600px;
     }
-    
+
     #form2 input {
         font-size: 16px;
     }
-    
+
     #form3 input, #form3 textarea {
         font: 2.7em bold italic serif;
     }
-    
+
     #marker {
         background: #F00;
         height: 5px;
@@ -49,38 +49,38 @@
         position: absolute;
     }
     </style>
-    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="jquery.gcp.js"></script>    
-    <script type="text/javascript">
-    
-    var _css = ['width', 'height', 
-        'border-top-width', 'border-right-width', 
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="jquery.gcp.js"></script>
+    <script>
+
+    var _css = ['width', 'height',
+        'border-top-width', 'border-right-width',
         'border-bottom-width', 'border-left-width',
         'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
         'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
         'font-family', 'font-size', 'font-style', 'font-variant', 'font-weight',
         'outline-width', 'white-space', 'direction', 'letter-spacing',
         'line-height', 'text-align', 'text-transform', 'word-spacing'];
-        
+
     // overflow hidden
-    
+
     $(function(){
-        $('input, textarea').keyup(function(ev){
+        $('input, textarea').on('keyup mouseup', function(ev){
             var stats = $('#stats table');
             stats.children().remove();
-            var obj = $(this).getCursorPosition();     
+            var obj = $(this).getCursorPosition();
             for(x in obj) {
                 stats.append('<tr><th>'+ x +'</th><td>'+ obj[x] +'</td></tr>');
             }
             for(var i=0; i<_css.length; i++) {
-                stats.append('<tr><th>'+ _css[i] +'</th><td>'+ 
+                stats.append('<tr><th>'+ _css[i] +'</th><td>'+
                     $(this).css(_css[i]) +'</td></tr>');
             }
             $('#marker').css('top', obj.top);
-            $('#marker').css('left', obj.left); 
+            $('#marker').css('left', obj.left);
         });
     });
-    
+
     </script>
 </head>
 <body>
@@ -89,23 +89,23 @@
         <br />
         <textarea></textarea>
     </form>
-    
+
     <form id="form2">
         <input type="text" />
         <br />
         <textarea></textarea>
-    </form>    
-    
+    </form>
+
     <form id="form3">
         <input type="text" />
         <br />
         <textarea></textarea>
     </form>
-    
+
     <div id="stats">
         <table></table>
     </div>
-    
+
     <span id="marker"></span>
 </body>
 </html>
